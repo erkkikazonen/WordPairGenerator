@@ -17,7 +17,8 @@ class MyApp extends StatelessWidget {
         title: 'Namer App',
         theme: ThemeData(
           useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
+          colorScheme: ColorScheme.fromSeed(
+              seedColor: const Color.fromARGB(255, 186, 14, 20)),
         ),
         home: MyHomePage(),
       ),
@@ -75,6 +76,8 @@ class _MyHomePageState extends State<MyHomePage> {
         page = GeneratorPage();
       case 1:
         page = FavoritesPage();
+      case 2:
+        page = AboutPage();
       default:
         throw UnimplementedError('no widget for $selectedIndex');
     }
@@ -105,6 +108,10 @@ class _MyHomePageState extends State<MyHomePage> {
                         icon: Icon(Icons.favorite),
                         label: 'Favorites',
                       ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.account_box_rounded),
+                        label: 'About',
+                      ),
                     ],
                     currentIndex: selectedIndex,
                     onTap: (value) {
@@ -130,6 +137,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       NavigationRailDestination(
                         icon: Icon(Icons.favorite),
                         label: Text('Favorites'),
+                      ),
+                      NavigationRailDestination(
+                        icon: Icon(Icons.account_box_rounded),
+                        label: Text('About'),
                       ),
                     ],
                     selectedIndex: selectedIndex,
@@ -194,6 +205,34 @@ class GeneratorPage extends StatelessWidget {
             ],
           ),
           Spacer(flex: 2),
+        ],
+      ),
+    );
+  }
+}
+
+class AboutPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            'Random Worldpair Generator',
+            style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: 16.0),
+          Text(
+            'This app generates random word pairs,'
+            'that you can add to your favourites list.',
+            style: Theme.of(context).textTheme.headlineSmall,
+            textAlign: TextAlign.center,
+          ),
         ],
       ),
     );
@@ -278,7 +317,7 @@ class FavoritesPage extends StatelessWidget {
                     },
                   ),
                   title: Text(
-                    pair.asLowerCase,
+                    pair.asPascalCase,
                     semanticsLabel: pair.asPascalCase,
                   ),
                 ),
@@ -333,7 +372,7 @@ class _HistoryListViewState extends State<HistoryListView> {
                     ? Icon(Icons.favorite, size: 12)
                     : SizedBox(),
                 label: Text(
-                  pair.asLowerCase,
+                  pair.asPascalCase,
                   semanticsLabel: pair.asPascalCase,
                 ),
               ),
